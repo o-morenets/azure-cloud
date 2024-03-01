@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -265,7 +266,7 @@ public class WebAppController {
 	}
 	
 	@GetMapping(value = "/soulmachines")
-	public String soulmachines(Model model, HttpServletRequest request, @RequestParam("sid") Optional<String> sid,  @RequestParam("csrf") Optional<String> csrf) throws URISyntaxException {
+	public String soulmachines(Model model, HttpServletRequest request, @RequestParam("sid") Optional<String> sid,  @RequestParam("csrf") Optional<String> csrf, @RequestParam("arr") Optional<String> arr) throws URISyntaxException {
 		logger.info(String.format("PetStoreApp /soulmachines requested for %s, routing to soulmachines view...",
 				this.sessionUser.getName()));		
 
@@ -280,10 +281,24 @@ public class WebAppController {
 			this.sessionUser.setCsrfToken(new HttpSessionCsrfTokenRepository().loadToken(request).getToken().toString());		
 		}
 
+		String arrAffinity = "";
+		if(request.getCookies() != null)
+		{
+			for(int i = 0; i < request.getCookies().length; i++)
+			{
+				if(request.getCookies()[i].getName().equals("ARRAffinity"))
+				{
+					arrAffinity = request.getCookies()[i].getValue();
+				}
+			}
+		}
+
+		model.addAttribute("arrAffinity", arrAffinity);
+
 		String url = request.getRequestURL().toString() + "?" + request.getQueryString();	
 		if(!url.contains("sid") || !url.contains("csrf"))
 		{
-			return "redirect:soulmachines?sid="+this.sessionUser.getJSessionId()+"&csrf="+this.sessionUser.getCsrfToken();
+			return "redirect:soulmachines?sid="+this.sessionUser.getJSessionId()+"&csrf="+this.sessionUser.getCsrfToken()+"&arr="+arrAffinity;
 		}
 		
 		return "soulmachines";
@@ -311,5 +326,21 @@ public class WebAppController {
 				this.sessionUser.getName()));
 	
 		return "raadcnnai";
+	}
+
+	@GetMapping(value = "/debug")
+	public String debug(Model model, HttpServletRequest request) throws URISyntaxException {
+		logger.info(String.format("PetStoreApp /debug requested for %s, routing to raadcnnai view...",
+				this.sessionUser.getName()));
+		
+		model.addAttribute("cookies", request.getCookies());
+		Map<String, String> headers = new HashMap<String, String>();
+		request.getHeaderNames().asIterator().forEachRemaining(header -> {
+			headers.put(header, request.getHeader(header));
+		});
+		model.addAttribute("headers", headers);
+		
+
+		return "debug";
 	}
 }

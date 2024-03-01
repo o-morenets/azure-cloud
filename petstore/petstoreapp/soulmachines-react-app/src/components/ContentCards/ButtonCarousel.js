@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import React, { createRef, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ArrowLeftCircle, ArrowRightCircle } from 'react-bootstrap-icons';
 import ButtonWithImage from './ButtonWithImage';
@@ -32,10 +33,11 @@ function ButtonCarousel({
   }, [viewIndex]);
 
   const carousel = buttonCards.map((imData) => {
+    if (!imData) return null;
     const imgRef = createRef();
     refs.push(imgRef);
     return (
-      <div className="image-carousel-item" key={imData.url} ref={imgRef}>
+      <div className="image-carousel-item" key={imData.url || 'key'} ref={imgRef}>
         <ButtonWithImage data={imData} triggerScrollIntoView={triggerScrollIntoView} />
       </div>
     );
@@ -90,27 +92,52 @@ function ButtonCarousel({
   );
 }
 
-ButtonCarousel.propTypes = {
-  data: PropTypes.shape({
-    buttonCards: PropTypes.arrayOf(
-      PropTypes.shape({
-        data: {
-          title: PropTypes.string.isRequired,
-          imageUrl: PropTypes.string.isRequired,
-          description: PropTypes.string.isRequired,
-          imageAltText: PropTypes.string,
-          buttonText: PropTypes.string,
-          productId: PropTypes.string,
-        },
-      }),
-    ),
-  }).isRequired,
-  className: PropTypes.string.isRequired,
-  inTranscript: PropTypes.bool.isRequired,
-  triggerScrollIntoView: PropTypes.func.isRequired,
-};
+// ButtonCarousel.propTypes = {
+//   data: PropTypes.shape({
+//     buttonCards: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         data: {
+//           title: PropTypes.string.isRequired,
+//           imageUrl: PropTypes.string.isRequired,
+//           description: PropTypes.string.isRequired,
+//           imageAltText: PropTypes.string,
+//           buttonText: PropTypes.string,
+//           productId: PropTypes.string,
+//         },
+//       }),
+//     ),
+//   }).isRequired,
+//   className: PropTypes.string.isRequired,
+//   inTranscript: PropTypes.bool.isRequired,
+//   triggerScrollIntoView: PropTypes.func.isRequired,
+// };
 
 export default styled(ButtonCarousel)`
+
+  div[data-sm-content="buttonCarousel"] {
+    width: 80%;
+  }
+
+  .imageReduce {
+    width:30%;
+    margin-top:10px;
+  }
+
+  .descriptionReduce {
+      width:100%;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      background: transparent;
+  }
+
+  .card {
+    border:2px solid rgb(69, 129, 186) !important;
+    border-radius:20px !important;
+    --bs-card-bg: transparent !important;
+  }
+
   .image-carousel-wrapper {
     display: flex;
     min-height: 100%;
@@ -118,7 +145,7 @@ export default styled(ButtonCarousel)`
   }
 
   .image-carousel-item {
-    min-width: 90%;
+    min-width: 50%;
     position: relative;
     &>div {
       margin-right: 1rem;

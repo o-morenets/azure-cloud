@@ -11,14 +11,15 @@ public class DPResponse {
     private boolean updateCart = false;
     private boolean completeCart = false;
     private String aoaiResponse = null;
-    private boolean imageContentCard = false;
+    private boolean contentCard = false;
+    private boolean rateLimitExceeded = false;
     
     public DPResponse() {
         super();
     }
     
     public Classification getClassification() {
-        return classification;
+        return this.classification;
     }
     
     public void setClassification(Classification classification) {
@@ -26,41 +27,47 @@ public class DPResponse {
     }
 
     public String getDpResponseText() {
-        return dpResponseText;
+        return this.dpResponseText;
     }
     public void setDpResponseText(String dpResponseText) {
         this.dpResponseText = dpResponseText;
     }
 
     public List<Product> getProducts() {
-        return products;
+        return this.products;
     }
     public void setProducts(List<Product> products) {
         this.products = products;
     }
 
     public boolean isUpdateCart() {
-        return updateCart;
+        return this.updateCart;
     }
     public void setUpdateCart(boolean updateCart) {
         this.updateCart = updateCart;
     }
     public boolean isCompleteCart() {
-        return completeCart;
+        return this.completeCart;
     }
     public void setCompleteCart(boolean completeCart) {
         this.completeCart = completeCart;
     }   
     public String getAoaiResponse() {
-        return aoaiResponse;
+        return this.aoaiResponse;
     }
     public void setAoaiResponse(String aoaiResponse) {
         this.aoaiResponse = aoaiResponse;
     }
-    public boolean isImageContentCard() {
-        return imageContentCard;
+    public boolean isContentCard() {
+        return this.contentCard;
     }
-    public void setImageContentCard(boolean imageContentCard) {
-        this.imageContentCard = imageContentCard;
+    public void setContentCard(boolean contentCard) {
+        this.contentCard = contentCard;
+    }
+    public boolean isRateLimitExceeded() {
+        return this.rateLimitExceeded;
+    }
+    public void setRateLimitExceeded(boolean rateLimitExceeded) {
+        this.rateLimitExceeded = rateLimitExceeded;
     }
 }

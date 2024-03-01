@@ -76,6 +76,11 @@ function Loading({
               ? (
                 <div>
                   <p>
+                    Wait until the &quot;Chat Now&quot; button is enabled, do not attempt to
+                    &quot;Skip&quot; ahead, instead use the &quot;Next&quot; button to proceed
+                    and/or &quot;Chat Now&quot; once it is enabled.
+                  </p>
+                  <p>
                     The Digital Person works best in a quiet environment, when you&apos;re close to
                     your microphone, and your camera is on.
                   </p>
@@ -104,7 +109,7 @@ function Loading({
       <div className="row justify-content-center">
         <div className="tutorial-icon mb-2">
           <div className="fs-4 fw-bold mt-2">
-            &ldquo;hi, how are you?&rdquo;
+            &ldquo;Welcome to the Azure Pet Store!&rdquo;
           </div>
         </div>
       </div>
@@ -114,15 +119,18 @@ function Loading({
             <ArrowLeftCircleFill size={32} />
           </button>
           <h4>
-            What you do.
+            Do you have any toys for a dog that likes to chew?
           </h4>
           <button className="btn-unstyled" type="button" onClick={() => setPage(page + 1)}>
             <ArrowRightCircleFill size={32} />
           </button>
         </div>
         <div className="mt-0 mb-2">
-          Cory will listen to whatever you say.
-          Other options, like typing or choosing your responses, are also available.
+          Maia will listen to whatever you say. You can ask her about our products,
+          things like dog toys, cat food etc..., or
+          other questions about your pets to help you find the right product.
+          You can also ask her to add products to your shopping cart,
+          view your shopping cart and even place your order!
         </div>
       </div>
     </div>,
@@ -143,9 +151,8 @@ function Loading({
           </button>
         </div>
         <div className="mt-0 mb-2">
-          You can explore the features of my UI, see examples of the different
-          supporting content I can show, or hear about the latest updates to
-          the UI template that I&apos;m using.
+          You can only talk to Maia about the products in the Azure Pet Store,
+          your shopping cart, and/or general pet related questions.
         </div>
       </div>
     </div>,
@@ -157,7 +164,11 @@ function Loading({
   };
   const history = useHistory();
   useEffect(() => {
-    if (skip === true && connected === true) history.push('/video');
+    if (skip === true && connected === true) {
+      setTimeout(() => {
+        history.push('/video');
+      }, 2500);
+    }
   }, [connected, skip]);
 
   return (
